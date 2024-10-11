@@ -39,7 +39,7 @@
           pos.y += this.direction.y;
           pos.z += this.direction.z;
 
-          // Actualizar la posición del brazo robótico (esfera y cilindro)
+          // Actualizar la posición del brazo robótico
           this.el.setAttribute('position', pos);
         }
       });
@@ -52,16 +52,14 @@
         tick: function () {
           if (!this.data.target) return;
 
-          // Obtener la posición global del objeto objetivo (la esfera)
-          const targetObj = this.data.target.object3D;
-          const targetWorldPos = new THREE.Vector3();
-          targetObj.getWorldPosition(targetWorldPos);  // Obtener la posición global de la esfera
+          // Obtener la posición del objeto objetivo (la esfera)
+          const targetPos = this.data.target.getAttribute('position');
           
           // Ajustar la posición de la cámara para que siga la esfera
           const newCameraPos = {
-            x: targetWorldPos.x,        // Seguir la posición X de la esfera
-            y: targetWorldPos.y + 1,    // Coloca la cámara un poco por encima del objetivo
-            z: targetWorldPos.z + 3     // Coloca la cámara ligeramente detrás del objetivo
+            x: targetPos.x,
+            y: targetPos.y + 1, // Coloca la cámara un poco por encima del objetivo
+            z: targetPos.z + 2  // Coloca la cámara ligeramente detrás del objetivo
           };
 
           this.el.setAttribute('position', newCameraPos);
@@ -74,7 +72,7 @@
       <!-- Suelo -->
       <a-box position="0 0 -3" depth="20" height="0.1" width="20" color="#aaa"></a-box>
 
-      <!-- Brazo robótico interactivo (con esfera) -->
+      <!-- Brazo robótico interactivo -->
       <a-cylinder position="0 0.5 -1.5" radius="0.5" height="0.2" color="#4A90E2" robot-arm-controls></a-cylinder>
       <a-box position="0 1.2 -1.5" width="0.3" height="1" depth="0.3" color="#F5A623"></a-box>
       <a-sphere id="target-sphere" position="0 1.75 -1.5" radius="0.2" color="#F8E71C"></a-sphere> <!-- Esfera objetivo -->
